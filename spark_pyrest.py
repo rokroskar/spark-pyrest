@@ -41,7 +41,7 @@ class SparkPyRest(object):
 
         for executor in executors: 
             if executor['id'] == executor_id:
-               break
+               continue
 
         log_url = executors[executor_id]
         response = requests.get(executor['executorLogs']['stderr'].replace('logPage', 'log')+'&offset=0')
@@ -56,7 +56,7 @@ class SparkPyRest(object):
         executors = self.executors
 
         for executor in executors: 
-            if executor['id'] == executor_id:
+            if executor['id'] == str(executor_id):
                break
 
         if nbytes=='all':

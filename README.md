@@ -229,9 +229,7 @@ mean_runtime.plot(kind='bar')
 
 ### Grab the log of an executor
 If your application prints its own metrics to 
-stdout/stderr, you need to be able to grab the executor logs to see these metrics. It can be tedious to get at that information using the Spark 
-UI, but the REST interface provides us with a URL to the relevant files for 
-each executor. Using the `executor_log` method, you can grab the full contents 
+stdout/stderr, you need to be able to grab the executor logs to see these metrics. The logs are located on the hosts that make up your cluster, so accessing them programmatically can be tedious. You can see them through the Spark web UI of course, but processing them that way is not really useful. Using the `executor_log` method of `SparkPyRest`, you can grab the full contents 
 of the log for easy post-processing/data extraction. 
 
 ```python

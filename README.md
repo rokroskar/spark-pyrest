@@ -255,3 +255,7 @@ Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
 17/04/20 09:12:23 INFO SecurityManager: Changing view acls groups to: 
 17/04/20 09:12:23 INFO SecurityManager: Changing modify acls groups to: 
 ```
+
+## Contributing
+
+Please submit an issue if you discover a bug or have a feature request! Pull requests also very welcome. 

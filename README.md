@@ -1,5 +1,5 @@
 # spark-pyrest
-A simple package for querying Apache Spark's REST API
+A simple python package for querying Apache Spark's REST API
 
 ## Installation and dependencies
 

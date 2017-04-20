@@ -1,5 +1,9 @@
 # spark-pyrest
-A simple python package for querying Apache Spark's REST API
+A simple python package for querying Apache Spark's REST API: 
+
+* simple interface
+* returns DataFrames of task metrics for easy slicing and dicing
+* easily access executor logs for post-processing. 
 
 ## Installation and dependencies
 

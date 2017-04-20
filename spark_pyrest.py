@@ -40,8 +40,8 @@ class SparkPyRest(object):
         executors = self.executors
 
         for executor in executors: 
-            if executor['id'] == executor_id:
-               continue
+            if executor['id'] == str(executor_id):
+               break
 
         log_url = executors[executor_id]
         response = requests.get(executor['executorLogs']['stderr'].replace('logPage', 'log')+'&offset=0')
@@ -90,18 +90,33 @@ def get_stages(base_url):
 
 
 def get_tasks(base_url, stageid):
+    """Produce a DataFrame of task metrics for a stage or list of stages"""
+
+    fields = ['taskId', 'host', 'executorId', 'executorRunTime', 
+                  'localBytesRead', 'remoteBytesRead', 'bytesWritten']
+
     if isinstance(stageid,int): 
         response = requests.get(base_url+'/applications/'+get_app(base_url)+'/stages/'+str(stageid))
         j = response.json()
-        res = [(i,t['host'],t['executorId'],t['taskMetrics']['executorRunTime']) for i,t in j[0]['tasks'].iteritems()]
-        columns = ['task_id', 'host_ip', 'executor_id', 'task_time']
-        res = pd.DataFrame(res,columns=columns)
+        res = [_recurse_dict(task,fields) for task in j[0]['tasks'].values()]
+        res = pd.DataFrame(res)
+
     elif isinstance(stageid,list):
-        columns = ['task_id', 'host_ip', 'executor_id', 'task_time', 'stageid']
+        columns = fields + ['stageid',]
         res = pd.DataFrame(columns=columns)
         for s in stageid: 
-            df = get_tasks(s)
+            df = get_tasks(base_url, s)
             df['stageid'] = s
             res = res.append(df)
     return res
 
+def _recurse_dict(d, fields):
+    """Traverse a dictionary recursively looking for keys matching the list of keys in 'fields'"""
+    task_metrics = {}
+    for k,v in d.iteritems():
+        if k in fields: task_metrics[k] = v
+        if isinstance(v,dict):
+            new_dict = _recurse_dict(v,fields)
+            if new_dict is not None: 
+                task_metrics.update(new_dict)
+    return task_metrics

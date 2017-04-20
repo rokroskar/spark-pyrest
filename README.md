@@ -9,9 +9,11 @@ A simple python package for querying Apache Spark's REST API:
 
 `spark-pyrest` uses [`pandas`](http://pandas.pydata.org/). 
 
-To install, clone the repository and do the standard
+To install:
 
 ```
+$ git clone https://github.com/rokroskar/spark-pyrest.git
+$ cd spark-pyrest
 $ python setup.py install
 ```
 
